@@ -29,22 +29,7 @@ public class PointHeat implements HeatSource {
 	}
 
 	@Override
-	public double getMinX() {
-		return x - heatRadius;
-	}
-
-	@Override
-	public double getMaxX() {
-		return x + heatRadius;
-	}
-
-	@Override
-	public double getMinY() {
-		return y - heatRadius;
-	}
-
-	@Override
-	public double getMaxY() {
-		return y + heatRadius;
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, heatRadius);
 	}
 }

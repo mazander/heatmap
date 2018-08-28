@@ -3,30 +3,11 @@ package com.mazander.heatmap;
 import java.awt.Color;
 import java.util.Arrays;
 
-public class ColorPalette implements HeatmapColors {
-	
-	public static final ColorPalette SEVEN_COLORS = new ColorPalette(
-			new HeatColor(0.0, Color.BLACK),
-			new HeatColor(0.16666, Color.BLUE),
-			new HeatColor(0.33333, Color.CYAN),
-			new HeatColor(0.5, Color.GREEN),
-			new HeatColor(0.66666, Color.YELLOW),
-			new HeatColor(0.83333, Color.RED),
-			new HeatColor(1.0, Color.WHITE));
-	
-	public static final ColorPalette FIVE_COLORS = new ColorPalette(
-			new HeatColor(0.0, Color.BLUE),
-			new HeatColor(0.25, Color.CYAN),
-			new HeatColor(0.5, Color.GREEN),
-			new HeatColor(0.75, Color.YELLOW),
-			new HeatColor(1.0, Color.RED));
-	
-	public static final ColorPalette MONOCHROME = new ColorPalette(
-			new HeatColor(0.0, Color.BLACK),
-			new HeatColor(1.0, Color.WHITE));
+public class ColorPalette implements Colormap {
 
-	private final HeatColor[] colors;
 	
+	private final HeatColor[] colors;
+
 	public ColorPalette(HeatColor... colors) {
 		if (colors.length < 2) {
 			String message = ColorPalette.class.getSimpleName() + " requires at least two "
@@ -54,7 +35,7 @@ public class ColorPalette implements HeatmapColors {
 		}
 		return colors[colors.length - 1].getColor().getRGB();
 	}
-	
+
 	static double getBendingRatio(double smaller, double bigger, double between) {
 		return (between - smaller) / (bigger - smaller);
 	}
@@ -72,4 +53,3 @@ public class ColorPalette implements HeatmapColors {
 	}
 
 }
-

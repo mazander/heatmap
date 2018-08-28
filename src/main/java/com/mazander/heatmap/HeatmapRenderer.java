@@ -5,9 +5,9 @@ import java.awt.image.BufferedImage;
 
 public class HeatmapRenderer {
 	
-	protected int width = 1000;
+	protected int width = 300;
 	
-	protected int height = 1000;
+	protected int height = 300;
 	
 	protected final Rectangle2D.Double bounds = new Rectangle2D.Double(-500.0, -500.0, 1000.0, 1000.0);
 
@@ -23,7 +23,7 @@ public class HeatmapRenderer {
 		this.bounds.setRect(x, y, width, height);
 	}
 
-	public BufferedImage render(HeatSource heatSource, HeatmapColors heatmapColors) {
+	public BufferedImage render(HeatSource heatSource, Colormap heatmapColors) {
 
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		for (int i = 0; i < width; i++) {

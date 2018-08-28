@@ -1,69 +1,87 @@
 package com.mazander.heatmap;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class Heatmap implements HeatSource {
 
+	private static final int MAX_BINARY_TREE_LEVELS = 10;
+
+	private static final int SPLIT_LIMIT = 10;
+
 	protected final List<HeatSource> heatSources = new ArrayList<>();
 
-	private double maxY = -Double.MAX_VALUE;
+	private final Rectangle bounds = new Rectangle();
 
-	private double minY = Double.MAX_VALUE;
+	private final int level;
 
-	private double maxX = -Double.MAX_VALUE;
+	private final boolean splitX;
 
-	private double minX = Double.MAX_VALUE;
-	
-	private final double centerX;
-	
-	private final double centerY;
-	
-	public Heatmap(Collection<HeatSource> heatSources) {
-		this(heatSources, true);
+	private Heatmap leftChild = null;
+
+	private Heatmap rigthChild = null;
+
+	public Heatmap() {
+		this(MAX_BINARY_TREE_LEVELS);
 	}
-	
-	private Heatmap(Collection<HeatSource> heatSources, boolean splitX) {
-		for (HeatSource heatSource : heatSources) {
-			minX = Math.min(minX, heatSource.getMinX());
-			maxX = Math.max(maxX, heatSource.getMaxX());
-			minY = Math.min(minY, heatSource.getMinY());
-			maxY = Math.max(maxY, heatSource.getMaxY());
+
+	public Heatmap(int level) {
+		this.level = level;
+		this.splitX = level % 2 == 0;
+	}
+
+	public void addHeatSource(HeatSource heatSource) {
+		getBounds().add(heatSource.getBounds());
+		heatSources.add(heatSource);
+	}
+
+	public void optimize() {
+		if (level > 0 && heatSources.size() > SPLIT_LIMIT) {
+			leftChild = new Heatmap(level - 1);
+			rigthChild = new Heatmap(level - 1);
+			for (HeatSource heatSource : heatSources) {
+				addToLeft(heatSource);
+				addToRigth(heatSource);
+			}
+			leftChild.optimize();
+			rigthChild.optimize();
 		}
-		centerX = 0.5 * (maxX + minX);
-		centerY = 0.5 * (maxY + minY);
-		
-		this.heatSources.addAll(heatSources);
 	}
-	
+
+	private void addToRigth(HeatSource heatSource) {
+		if (splitX && heatSource.getBounds().getMaxX() > getBounds().getCenterX()
+				|| !splitX && heatSource.getBounds().getMaxY() > getBounds().getCenterY()) {
+			rigthChild.addHeatSource(heatSource);
+		}
+	}
+
+	private void addToLeft(HeatSource heatSource) {
+		if (splitX && heatSource.getBounds().getMinX() < getBounds().getCenterX()
+				|| !splitX && heatSource.getBounds().getMinY() < getBounds().getCenterY()) {
+			leftChild.addHeatSource(heatSource);
+		}
+	}
+
 	@Override
 	public double getHeatAt(double x, double y) {
 		double sum = 0.0;
-		for (HeatSource heatSource : heatSources) {
-			sum += heatSource.getHeatAt(x, y);
+		if (getBounds().intersects(x, y)) {
+			for (HeatSource heatSource : heatSources) {
+				sum += heatSource.getHeatAt(x, y);
+			}
+			if (leftChild != null) {
+				sum += leftChild.getHeatAt(x, y);
+			}
+			if (rigthChild != null) {
+				sum += rigthChild.getHeatAt(x, y);
+			}
 		}
 		return sum;
 	}
 
 	@Override
-	public double getMinX() {
-		return minX;
+	public Rectangle getBounds() {
+		return bounds;
 	}
 
-	@Override
-	public double getMaxX() {
-		return maxX;
-	}
-
-	@Override
-	public double getMinY() {
-		return minY;
-	}
-
-	@Override
-	public double getMaxY() {
-		return maxY;
-	}
-	
 }
