@@ -6,19 +6,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import org.junit.Test;
+public class ExampleImageRenderer {
 
-public class HeatmapTest {
+	public static void main(String[] args) {
 
-	@Test
-	public void testDraw() {
 		List<HeatSource> heatSources = new ArrayList<>();
 		for (int i = 0; i < 200; i++) {
 			double x = Math.random() * 300;
@@ -27,21 +24,23 @@ public class HeatmapTest {
 		}
 		Heatmap heatmap = new Heatmap();
 		heatSources.forEach(hs -> heatmap.addHeatSource(hs));
-			
+
 		HeatmapRenderer rendeder = new HeatmapRenderer();
-		
-		Map<String, Colormap> map = DefaultColormaps.getAllColormaps();
-		for (String name : map.keySet()) {
-			BufferedImage image = rendeder.render(heatmap, map.get(name));
+
+		for (Colormap colormap : Colormaps.values()) {
+			BufferedImage image = rendeder.render(heatmap, colormap);
 			try {
-				ImageIO.write(image, "png", new File("target/" + name + ".png"));
+				ImageIO.write(image, "png", new File("target/" + colormap + ".png"));
+				System.out.println("![" + colormap + "](images/" + colormap + ".png)");
+				System.out.println("**" + colormap + "**");
+				System.out.println();
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
-	
-		BufferedImage image = rendeder.render(heatmap, DefaultColormaps.MAGMA);
+
+		BufferedImage image = rendeder.render(heatmap, Colormaps.MAGMA);
 		JLabel label = new JLabel(new ImageIcon(image));
 		JFrame frame = new JFrame("test");
 		frame.setSize(image.getWidth(), image.getHeight());
