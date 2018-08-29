@@ -25,7 +25,8 @@ public class ExampleImageRenderer {
 		Heatmap heatmap = new Heatmap();
 		heatSources.forEach(hs -> heatmap.addHeatSource(hs));
 
-		HeatmapRenderer rendeder = new HeatmapRenderer();
+		HeatmapRenderer rendeder = new HeatmapRenderer(300, 300);
+		rendeder.setBounds(new Rectangle(0.0, 0.0, 300.0, 300.0));
 
 		for (Colormap colormap : Colormaps.values()) {
 			BufferedImage image = rendeder.render(heatmap, colormap);

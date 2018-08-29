@@ -20,6 +20,4 @@ public final class ColorUtils {
 		return (between - smaller) / (bigger - smaller);
 	}
 
-
-
 }

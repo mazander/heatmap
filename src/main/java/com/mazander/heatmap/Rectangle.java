@@ -28,6 +28,13 @@ public class Rectangle {
 		maxY = y + size;
 	}
 	
+	public void set(Rectangle other) {
+		this.minX = other.minX;
+		this.minY = other.minY;
+		this.maxX = other.maxX;
+		this.maxY = other.maxY;
+	}
+	
 	public void add(double x, double y) {
 		minX = Math.min(minX, x);
 		maxX = Math.max(maxX, x);
@@ -70,11 +77,11 @@ public class Rectangle {
 		return 0.5 * getHeigth();
 	}
 	
-	private double getWidth() {
+	public double getWidth() {
 		return minX + maxX;
 	}
 
-	private double getHeigth() {
+	public double getHeigth() {
 		return minY + maxY;
 	}
 }
