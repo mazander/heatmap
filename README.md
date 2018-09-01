@@ -1,146 +1,228 @@
 # heatmap
-Simple heatmap image generator for Java
+Simple heatmap image generator for Java.
 
-![SEVEN_COLORS](images/SEVEN_COLORS.png)
-**SEVEN_COLORS**
+## Getting Started
 
-![FIVE_COLORS](images/FIVE_COLORS.png)
-**FIVE_COLORS**
+```
+double worldWidth = 1000.0;
+double worldHeight = 1000.0;
+int imageWidth = 400;
+int imageHeight = 400;
+double heatRadius = 50.0;
+double maximumHeat = 0.2;
 
-![MONOCHROME](images/MONOCHROME.png)
-**MONOCHROME**
+// random heat sources
+Random random = new Random(1337);
+List<HeatSource> heatSources = new ArrayList<>();
+for (int i = 0; i < 1000; i++) {
 
-![JET](images/JET.png)
-**JET**
+	double x = (0.5 * random.nextGaussian() + 0.5) * worldWidth;
+	double y = (0.5 * random.nextGaussian() + 0.5) * worldHeight;
 
-![HSV](images/HSV.png)
-**HSV**
+	heatSources.add(new PointHeat(x, y, maximumHeat, heatRadius));
+}
 
-![HOT](images/HOT.png)
-**HOT**
+// heatmap
+BinaryTreeHeatmap heatmap = new BinaryTreeHeatmap(heatSources);
 
-![COLD](images/COLD.png)
-**COLD**
+// render image
+HeatmapRenderer rendeder = new HeatmapRenderer(imageWidth, imageHeight);
+rendeder.setBounds(new Bounds(0.0, 0.0, worldWidth, worldHeight));
+BufferedImage image = rendeder.render(heatmap, Colormaps.CUBEHELIX);
+```
 
-![SPRING](images/SPRING.png)
-**SPRING**
+| CUBEHELIX |
+| --- |
+| ![CUBEHELIX](images/CUBEHELIX.png) |
 
-![SUMMER](images/SUMMER.png)
-**SUMMER**
+## Default Colormaps
 
-![AUTUMN](images/AUTUMN.png)
-**AUTUMN**
+| AUTUMN |
+| --- |
+| ![AUTUMN](images/AUTUMN.png) |
 
-![WINTER](images/WINTER.png)
-**WINTER**
+| BATHYMETRY |
+| --- |
+| ![BATHYMETRY](images/BATHYMETRY.png) |
 
-![BONE](images/BONE.png)
-**BONE**
+| BLACKBODY |
+| --- |
+| ![BLACKBODY](images/BLACKBODY.png) |
 
-![COPPER](images/COPPER.png)
-**COPPER**
+| BLUERED |
+| --- |
+| ![BLUERED](images/BLUERED.png) |
 
-![GREYS](images/GREYS.png)
-**GREYS**
+| BONE |
+| --- |
+| ![BONE](images/BONE.png) |
 
-![YIGNBU](images/YIGNBU.png)
-**YIGNBU**
+| CDOM |
+| --- |
+| ![CDOM](images/CDOM.png) |
 
-![GREENS](images/GREENS.png)
-**GREENS**
+| CHLOROPHYLL |
+| --- |
+| ![CHLOROPHYLL](images/CHLOROPHYLL.png) |
 
-![YIORRD](images/YIORRD.png)
-**YIORRD**
+| COLD |
+| --- |
+| ![COLD](images/COLD.png) |
 
-![BLUERED](images/BLUERED.png)
-**BLUERED**
+| COOL |
+| --- |
+| ![COOL](images/COOL.png) |
 
-![RDBU](images/RDBU.png)
-**RDBU**
+| COPPER |
+| --- |
+| ![COPPER](images/COPPER.png) |
 
-![PICNIC](images/PICNIC.png)
-**PICNIC**
+| CUBEHELIX |
+| --- |
+| ![CUBEHELIX](images/CUBEHELIX.png) |
 
-![RAINBOW](images/RAINBOW.png)
-**RAINBOW**
+| DENSITY |
+| --- |
+| ![DENSITY](images/DENSITY.png) |
 
-![PORTLAND](images/PORTLAND.png)
-**PORTLAND**
+| EARTH |
+| --- |
+| ![EARTH](images/EARTH.png) |
 
-![BLACKBODY](images/BLACKBODY.png)
-**BLACKBODY**
+| ELECTRIC |
+| --- |
+| ![ELECTRIC](images/ELECTRIC.png) |
 
-![EARTH](images/EARTH.png)
-**EARTH**
+| FIVE_COLORS |
+| --- |
+| ![FIVE_COLORS](images/FIVE_COLORS.png) |
 
-![ELECTRIC](images/ELECTRIC.png)
-**ELECTRIC**
+| FREESURFACE_BLUE |
+| --- |
+| ![FREESURFACE_BLUE](images/FREESURFACE_BLUE.png) |
 
-![ALPHA](images/ALPHA.png)
-**ALPHA**
+| FREESURFACE_RED |
+| --- |
+| ![FREESURFACE_RED](images/FREESURFACE_RED.png) |
 
-![VIRIDIS](images/VIRIDIS.png)
-**VIRIDIS**
+| GREENS |
+| --- |
+| ![GREENS](images/GREENS.png) |
 
-![INFERNO](images/INFERNO.png)
-**INFERNO**
+| GREYS |
+| --- |
+| ![GREYS](images/GREYS.png) |
 
-![MAGMA](images/MAGMA.png)
-**MAGMA**
+| HOT |
+| --- |
+| ![HOT](images/HOT.png) |
 
-![PLASMA](images/PLASMA.png)
-**PLASMA**
+| HSV |
+| --- |
+| ![HSV](images/HSV.png) |
 
-![WARM](images/WARM.png)
-**WARM**
+| INFERNO |
+| --- |
+| ![INFERNO](images/INFERNO.png) |
 
-![COOL](images/COOL.png)
-**COOL**
+| JET |
+| --- |
+| ![JET](images/JET.png) |
 
-![RAINBOW_SOFT](images/RAINBOW_SOFT.png)
-**RAINBOW_SOFT**
+| MAGMA |
+| --- |
+| ![MAGMA](images/MAGMA.png) |
 
-![BATHYMETRY](images/BATHYMETRY.png)
-**BATHYMETRY**
+| MONOCHROME |
+| --- |
+| ![MONOCHROME](images/MONOCHROME.png) |
 
-![CDOM](images/CDOM.png)
-**CDOM**
+| OXYGEN |
+| --- |
+| ![OXYGEN](images/OXYGEN.png) |
 
-![CHLOROPHYLL](images/CHLOROPHYLL.png)
-**CHLOROPHYLL**
+| PAR |
+| --- |
+| ![PAR](images/PAR.png) |
 
-![DENSITY](images/DENSITY.png)
-**DENSITY**
+| PHASE |
+| --- |
+| ![PHASE](images/PHASE.png) |
 
-![FREESURFACE_BLUE](images/FREESURFACE_BLUE.png)
-**FREESURFACE_BLUE**
+| PICNIC |
+| --- |
+| ![PICNIC](images/PICNIC.png) |
 
-![FREESURFACE_RED](images/FREESURFACE_RED.png)
-**FREESURFACE_RED**
+| PLASMA |
+| --- |
+| ![PLASMA](images/PLASMA.png) |
 
-![OXYGEN](images/OXYGEN.png)
-**OXYGEN**
+| PORTLAND |
+| --- |
+| ![PORTLAND](images/PORTLAND.png) |
 
-![PAR](images/PAR.png)
-**PAR**
+| RAINBOW |
+| --- |
+| ![RAINBOW](images/RAINBOW.png) |
 
-![PHASE](images/PHASE.png)
-**PHASE**
+| RAINBOW_SOFT |
+| --- |
+| ![RAINBOW_SOFT](images/RAINBOW_SOFT.png) |
 
-![SALINITY](images/SALINITY.png)
-**SALINITY**
+| RDBU |
+| --- |
+| ![RDBU](images/RDBU.png) |
 
-![TEMPERATURE](images/TEMPERATURE.png)
-**TEMPERATURE**
+| SALINITY |
+| --- |
+| ![SALINITY](images/SALINITY.png) |
 
-![TURBIDITY](images/TURBIDITY.png)
-**TURBIDITY**
+| SEVEN_COLORS |
+| --- |
+| ![SEVEN_COLORS](images/SEVEN_COLORS.png) |
 
-![VELOCITY_BLUE](images/VELOCITY_BLUE.png)
-**VELOCITY_BLUE**
+| SPRING |
+| --- |
+| ![SPRING](images/SPRING.png) |
 
-![VELOCITY_GREEN](images/VELOCITY_GREEN.png)
-**VELOCITY_GREEN**
+| SUMMER |
+| --- |
+| ![SUMMER](images/SUMMER.png) |
 
-![CUBEHELIX](images/CUBEHELIX.png)
-**CUBEHELIX**
+| TEMPERATURE |
+| --- |
+| ![TEMPERATURE](images/TEMPERATURE.png) |
+
+| TURBIDITY |
+| --- |
+| ![TURBIDITY](images/TURBIDITY.png) |
+
+| VELOCITY_BLUE |
+| --- |
+| ![VELOCITY_BLUE](images/VELOCITY_BLUE.png) |
+
+| VELOCITY_GREEN |
+| --- |
+| ![VELOCITY_GREEN](images/VELOCITY_GREEN.png) |
+
+| VIRIDIS |
+| --- |
+| ![VIRIDIS](images/VIRIDIS.png) |
+
+| WARM |
+| --- |
+| ![WARM](images/WARM.png) |
+
+| WINTER |
+| --- |
+| ![WINTER](images/WINTER.png) |
+
+| YIGNBU |
+| --- |
+| ![YIGNBU](images/YIGNBU.png) |
+
+| YIORRD |
+| --- |
+| ![YIORRD](images/YIORRD.png) |
+
+

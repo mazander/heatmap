@@ -240,6 +240,31 @@ public enum Colormaps implements Colormap {
 			new HeatColor(0.75, new Color(254, 217, 118)), new HeatColor(0.875, new Color(255, 237, 160)),
 			new HeatColor(1, new Color(255, 255, 204)));
 
+	private static class HeatColor implements Comparable<HeatColor> {
+
+		private final Color color;
+
+		private final double heat;
+
+		public HeatColor(double heat, Color color) {
+			this.heat = heat;
+			this.color = color;
+		}
+
+		@Override
+		public int compareTo(HeatColor other) {
+			return Double.compare(getHeat(), other.getHeat());
+		}
+
+		public Color getColor() {
+			return color;
+		}
+
+		public double getHeat() {
+			return heat;
+		}
+	}
+
 	private final HeatColor[] colors;
 
 	private Colormaps(HeatColor... colors) {
@@ -266,31 +291,6 @@ public enum Colormaps implements Colormap {
 			}
 		}
 		return colors[colors.length - 1].getColor().getRGB();
-	}
-
-	private static class HeatColor implements Comparable<HeatColor> {
-
-		private final double heat;
-
-		private final Color color;
-
-		public HeatColor(double heat, Color color) {
-			this.heat = heat;
-			this.color = color;
-		}
-
-		@Override
-		public int compareTo(HeatColor other) {
-			return Double.compare(getHeat(), other.getHeat());
-		}
-
-		public double getHeat() {
-			return heat;
-		}
-
-		public Color getColor() {
-			return color;
-		}
 	}
 
 }
