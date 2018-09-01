@@ -20,16 +20,16 @@ public class PointHeat implements HeatSource {
 
 	@Override
 	public double getHeatAt(double x, double y) {
-		double distance = Point.distance(this.x, this.y, x, y);
-		if (distance > heatRadius) {
-			return 0.0;
+		double distanceSq = Point.distanceSq(this.x, this.y, x, y);
+		if (distanceSq < heatRadius * heatRadius) {
+			return (heatRadius - Math.sqrt(distanceSq)) / heatRadius * maximumHeat;
 		} else {
-			return (heatRadius - distance) / heatRadius * maximumHeat;
+			return 0.0;
 		}
 	}
 
 	@Override
-	public Rectangle getBounds() {
-		return new Rectangle(x, y, heatRadius);
+	public Bounds getBounds() {
+		return new Bounds(x, y, heatRadius);
 	}
 }

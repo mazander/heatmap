@@ -1,6 +1,6 @@
 package com.mazander.heatmap;
 
-public class Rectangle {
+public class Bounds {
 
 	private double maxY = -Double.MAX_VALUE;
 
@@ -10,25 +10,25 @@ public class Rectangle {
 
 	private double minX = Double.MAX_VALUE;
 	
-	public Rectangle() {
+	public Bounds() {
 		
 	}
 	
-	public Rectangle(double minX, double minY, double maxX, double maxY) {
+	public Bounds(double minX, double minY, double maxX, double maxY) {
 		this.minX = minX;
 		this.minY = minY;
 		this.maxX = maxX;
 		this.maxY = maxY;
 	}
 	
-	public Rectangle(double x, double y, double size) {
+	public Bounds(double x, double y, double size) {
 		minX = x - size;
 		maxX = x + size;
 		minY = y - size;
 		maxY = y + size;
 	}
 	
-	public void set(Rectangle other) {
+	public void set(Bounds other) {
 		this.minX = other.minX;
 		this.minY = other.minY;
 		this.maxX = other.maxX;
@@ -42,7 +42,7 @@ public class Rectangle {
 		maxY = Math.max(maxY, y);
 	}
 
-	public void add(Rectangle bounds) {
+	public void add(Bounds bounds) {
 		minX = Math.min(minX, bounds.minX);
 		maxX = Math.max(maxX, bounds.maxX);
 		minY = Math.min(minY, bounds.minY);
@@ -50,7 +50,7 @@ public class Rectangle {
 	}
 	
 	public boolean intersects(double x, double y ) {
-		return x >= minX && x <= maxX && y >= minY && y <= maxY;
+		return x >= minX && x < maxX && y >= minY && y < maxY;
 	}
 
 	public double getMaxY() {
@@ -83,5 +83,21 @@ public class Rectangle {
 
 	public double getHeigth() {
 		return minY + maxY;
+	}
+	
+	public Bounds split(boolean splitX, boolean left) {
+		if (splitX) {
+			if (left) {
+				return new Bounds(getMinX(), getMinY(), getCenterX(), getMaxY());
+			} else {
+				return new Bounds(getCenterX(), getMinY(), getMaxX(), getMaxY());
+			}
+		} else {
+			if (left) {
+				return new Bounds(getMinX(), getMinY(), getMaxX(), getCenterY());
+			} else {
+				return new Bounds(getMinX(), getCenterY(), getMaxX(), getMaxY());
+			}
+		}
 	}
 }

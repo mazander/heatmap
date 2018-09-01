@@ -1,32 +1,29 @@
 package com.mazander.heatmap;
 
-import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 public class ExampleImageRenderer {
 
 	public static void main(String[] args) {
 
+		Random random = new Random(1337);
 		List<HeatSource> heatSources = new ArrayList<>();
-		for (int i = 0; i < 200; i++) {
-			double x = Math.random() * 300;
-			double y = Math.random() * 300;
-			heatSources.add(new PointHeat(x, y, 1.0, 15.0));
+		for (int i = 0; i < 10000; i++) {
+			double x = random.nextGaussian() * 1000.0;
+			double y = random.nextGaussian() * 1000.0;
+			heatSources.add(new PointHeat(x, y, 0.5, 20.0));
 		}
-		Heatmap heatmap = new Heatmap();
-		heatSources.forEach(hs -> heatmap.addHeatSource(hs));
+		BinaryTreeHeatmap heatmap = new BinaryTreeHeatmap(heatSources);
 
 		HeatmapRenderer rendeder = new HeatmapRenderer(300, 300);
-		rendeder.setBounds(new Rectangle(0.0, 0.0, 300.0, 300.0));
+		rendeder.setBounds(new Bounds(0.0, 0.0, 300.0, 300.0));
 
 		for (Colormap colormap : Colormaps.values()) {
 			BufferedImage image = rendeder.render(heatmap, colormap);
@@ -40,16 +37,6 @@ public class ExampleImageRenderer {
 				e.printStackTrace();
 			}
 		}
-
-		BufferedImage image = rendeder.render(heatmap, Colormaps.MAGMA);
-		JLabel label = new JLabel(new ImageIcon(image));
-		JFrame frame = new JFrame("test");
-		frame.setSize(image.getWidth(), image.getHeight());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout());
-		frame.getContentPane().add(label, BorderLayout.CENTER);
-		frame.setVisible(true);
-		System.out.println();
 	}
 
 }
