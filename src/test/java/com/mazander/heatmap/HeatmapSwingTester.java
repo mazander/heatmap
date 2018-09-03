@@ -12,10 +12,12 @@ public class HeatmapSwingTester {
 
 	public static void main(String[] args) {
 		List<HeatSource> heatSources = new ArrayList<>();
-		for (int i = 0; i < 20000; i++) {
+		for (int i = 0; i < 50; i++) {
 			double x = Math.random() * 1000.0;
 			double y = Math.random() * 1000.0;
-			heatSources.add(new PointHeat(x, y, 0.1, 15.0));
+			PointHeat pointHeat = new PointHeat(x, y, 1.0, 100.0);
+			pointHeat.setAttenuation(Attenuations.EXPONENTIAL);
+			heatSources.add(pointHeat);
 		}
 		BinaryTreeHeatmap heatmap = new BinaryTreeHeatmap(heatSources);
 

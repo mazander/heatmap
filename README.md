@@ -4,12 +4,12 @@ Simple heatmap image generator for Java.
 ## Getting Started
 
 ```
-double worldWidth = 1000.0;
-double worldHeight = 1000.0;
+double worldWidth = 800.0;
+double worldHeight = 800.0;
 int imageWidth = 400;
 int imageHeight = 400;
 double heatRadius = 50.0;
-double maximumHeat = 0.2;
+double maximumHeat = 0.3;
 
 // random heat sources
 Random random = new Random(1337);

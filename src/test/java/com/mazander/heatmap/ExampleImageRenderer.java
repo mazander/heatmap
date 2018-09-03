@@ -13,10 +13,12 @@ public class ExampleImageRenderer {
 
 	public static void main(String[] args) {
 
-		double worldWidth = 1000.0;
-		double worldHeight = 1000.0;
+		double worldWidth = 800.0;
+		double worldHeight = 800.0;
 		int imageWidth = 400;
 		int imageHeight = 400;
+		double heatRadius = 50.0;
+		double maximumHeat = 0.3;
 		
 		Random random = new Random(1337);
 		
@@ -25,12 +27,11 @@ public class ExampleImageRenderer {
 
 			double x = (0.5 * random.nextGaussian() + 0.5) * worldWidth;
 			double y = (0.5 * random.nextGaussian() + 0.5) * worldHeight;
-			double heatRadius = 50.0;
-			double maximumHeat = 0.2;
-			heatSources.add(new PointHeat(x, y, maximumHeat, heatRadius));
+			PointHeat pointHeat = new PointHeat(x, y, maximumHeat, heatRadius);
+			pointHeat.setAttenuation(Attenuations.EXPONENTIAL);
+			heatSources.add(pointHeat);
 		}
 		BinaryTreeHeatmap heatmap = new BinaryTreeHeatmap(heatSources);
-
 
 		HeatmapRenderer rendeder = new HeatmapRenderer(imageWidth, imageHeight);
 		rendeder.setBounds(new Bounds(0.0, 0.0, worldWidth, worldHeight));
