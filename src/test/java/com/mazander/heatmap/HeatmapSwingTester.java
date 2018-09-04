@@ -16,7 +16,7 @@ public class HeatmapSwingTester {
 			double x = Math.random() * 1000.0;
 			double y = Math.random() * 1000.0;
 			PointHeat pointHeat = new PointHeat(x, y, 1.0, 100.0);
-			pointHeat.setAttenuation(Attenuations.EXPONENTIAL);
+			pointHeat.setAttenuation(Attenuations.QUADRATIC);
 			heatSources.add(pointHeat);
 		}
 		BinaryTreeHeatmap heatmap = new BinaryTreeHeatmap(heatSources);

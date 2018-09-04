@@ -1,12 +1,11 @@
 package com.mazander.heatmap;
 
 import java.awt.Color;
-import java.util.Arrays;
 
 /**
- * Default color maps.
+ * Default {@link ColorScheme}s.
  */
-public enum Colormaps implements Colormap {
+public enum ColorSchemes implements ColorScheme {
 
 	ALPHA(new HeatColor(0, new Color(255, 255, 255, 0)), new HeatColor(1, new Color(255, 255, 255, 1))),
 
@@ -240,32 +239,15 @@ public enum Colormaps implements Colormap {
 			new HeatColor(0.75, new Color(254, 217, 118)), new HeatColor(0.875, new Color(255, 237, 160)),
 			new HeatColor(1, new Color(255, 255, 204)));
 
-	private final HeatColor[] colors;
+	private final ColorScheme colorScheme;
 
-	private Colormaps(HeatColor... colors) {
-		if (colors.length < 2) {
-			String message = getClass().getSimpleName() + " requires at least two " + HeatColor.class.getSimpleName()
-					+ " instances.";
-			throw new IllegalArgumentException(message);
-		}
-		this.colors = colors;
-		Arrays.sort(this.colors);
+	private ColorSchemes(HeatColor... colors) {
+		colorScheme = new MultiColorScheme(colors);
 	}
 
 	@Override
 	public int getHeatARGBColor(double heat) {
-		if (heat <= colors[0].getHeat()) {
-			return colors[0].getColor().getRGB();
-		}
-		for (int i = 1; i < colors.length; i++) {
-			HeatColor current = colors[i];
-			HeatColor previous = colors[i - 1];
-			if (heat <= current.getHeat()) {
-				double blending = ColorUtils.getBendingRatio(previous.getHeat(), current.getHeat(), heat);
-				return ColorUtils.getBlendedARGBColor(previous.getColor(), current.getColor(), blending);
-			}
-		}
-		return colors[colors.length - 1].getColor().getRGB();
+		return colorScheme.getHeatARGBColor(heat);
 	}
 
 }

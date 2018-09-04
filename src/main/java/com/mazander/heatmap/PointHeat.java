@@ -10,7 +10,7 @@ public class PointHeat implements HeatSource {
 	private final double maximumHeat;
 	private final double heatRadius;
 	
-	private Attenuation attenuation = Attenuations.EXPONENTIAL;
+	private Attenuation attenuation = Attenuations.QUADRATIC;
 
 	public PointHeat(double x, double y, double maximumHeat, double heatRadius) {
 		this.x = x;

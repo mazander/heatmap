@@ -20,12 +20,22 @@ public enum Attenuations implements Attenuation {
 
 	},
 	
-	EXPONENTIAL() {
+	QUADRATIC() {
 
 		@Override
 		public double getAttenuation(double distance, double maxDistance) {
 			double linear = LINEAR.getAttenuation(distance, maxDistance);
 			return linear * linear;
+		}
+
+	},
+	
+	CUBIC() {
+
+		@Override
+		public double getAttenuation(double distance, double maxDistance) {
+			double linear = LINEAR.getAttenuation(distance, maxDistance);
+			return linear * linear * linear;
 		}
 
 	}

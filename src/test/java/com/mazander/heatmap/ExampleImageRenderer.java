@@ -28,7 +28,7 @@ public class ExampleImageRenderer {
 			double x = (0.5 * random.nextGaussian() + 0.5) * worldWidth;
 			double y = (0.5 * random.nextGaussian() + 0.5) * worldHeight;
 			PointHeat pointHeat = new PointHeat(x, y, maximumHeat, heatRadius);
-			pointHeat.setAttenuation(Attenuations.EXPONENTIAL);
+			pointHeat.setAttenuation(Attenuations.QUADRATIC);
 			heatSources.add(pointHeat);
 		}
 		BinaryTreeHeatmap heatmap = new BinaryTreeHeatmap(heatSources);
@@ -36,16 +36,14 @@ public class ExampleImageRenderer {
 		HeatmapRenderer rendeder = new HeatmapRenderer(imageWidth, imageHeight);
 		rendeder.setBounds(new Bounds(0.0, 0.0, worldWidth, worldHeight));
 
-		for (Colormap colormap : Colormaps.values()) {
-			BufferedImage image = rendeder.render(heatmap, colormap);
+		for (ColorScheme colorScheme : ColorSchemes.values()) {
+			BufferedImage image = rendeder.render(heatmap, colorScheme);
 			try {
 				
-				ImageIO.write(image, "png", new File("target/" + colormap + ".png"));
-				System.out.println("| " + colormap + " |");
+				ImageIO.write(image, "png", new File("target/" + colorScheme + ".png"));
+				System.out.println("| " + colorScheme + " |");
 				System.out.println("| --- |");
-				System.out.println("| ![" + colormap + "](images/" + colormap + ".png) |");
-
-
+				System.out.println("| ![" + colorScheme + "](images/" + colorScheme + ".png) |");
 				System.out.println();
 
 			} catch (IOException e) {

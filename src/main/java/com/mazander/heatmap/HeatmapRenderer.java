@@ -20,7 +20,7 @@ public class HeatmapRenderer {
 		this.imageHeight = imageHeight;
 	}
 
-	public BufferedImage render(HeatSource heatSource, Colormap heatmapColors) {
+	public BufferedImage render(HeatSource heatSource, ColorScheme colorScheme) {
 
 		BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
 		int[] pixelData = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
@@ -33,7 +33,7 @@ public class HeatmapRenderer {
 				double y = bounds.getMinX() + bounds.getHeigth() * j / imageHeight;
 				double heat = heatSource.getHeatAt(x, y);
 				
-				pixelData[p++] = heatmapColors.getHeatARGBColor(heat);
+				pixelData[p++] = colorScheme.getHeatARGBColor(heat);
 			}
 		}
 

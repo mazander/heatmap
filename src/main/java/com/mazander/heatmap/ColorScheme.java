@@ -1,6 +1,6 @@
 package com.mazander.heatmap;
 
-public interface Colormap {
+public interface ColorScheme {
 	
 	int getHeatARGBColor(double heat);
 
