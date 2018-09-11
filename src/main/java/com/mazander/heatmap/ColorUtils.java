@@ -2,7 +2,7 @@ package com.mazander.heatmap;
 
 import java.awt.Color;
 
-public final class ColorUtils {
+final class Utils {
 
 	static int getBlendedARGBColor(final Color c1, final Color c2, final double blending) {
 	
@@ -16,8 +16,17 @@ public final class ColorUtils {
 		return ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | ((b & 0xFF) << 0);
 	}
 
-	static double getBendingRatio(double smaller, double bigger, double between) {
+	static double getBendingRatio(final double smaller, final double bigger, final double between) {
 		return (between - smaller) / (bigger - smaller);
+	}
+	
+	static double clampRatio(final double ratio) {
+		if (ratio < 0.0) {
+			return 0.0;
+		} else if (ratio > 1.0) {
+			return 1.0;
+		}
+		return ratio;
 	}
 
 }

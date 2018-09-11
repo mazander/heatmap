@@ -2,14 +2,14 @@ package com.mazander.heatmap;
 
 import java.awt.Color;
 
-public class HeatColor implements Comparable<HeatColor> {
+public class MCSColor implements Comparable<MCSColor> {
 
 	private final Color color;
 
-	private final double heat;
+	private final double value;
 
-	public HeatColor(double heat, Color color) {
-		this.heat = heat;
+	public MCSColor(double value, Color color) {
+		this.value = value;
 		this.color = color;
 	}
 
@@ -17,13 +17,13 @@ public class HeatColor implements Comparable<HeatColor> {
 		return color;
 	}
 
-	public double getHeat() {
-		return heat;
+	public double getValue() {
+		return value;
 	}
 	
 	@Override
-	public int compareTo(HeatColor other) {
-		return Double.compare(getHeat(), other.getHeat());
+	public int compareTo(MCSColor other) {
+		return Double.compare(getValue(), other.getValue());
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class HeatColor implements Comparable<HeatColor> {
 		int result = 1;
 		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		long temp;
-		temp = Double.doubleToLongBits(heat);
+		temp = Double.doubleToLongBits(value);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
@@ -45,13 +45,13 @@ public class HeatColor implements Comparable<HeatColor> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		HeatColor other = (HeatColor) obj;
+		MCSColor other = (MCSColor) obj;
 		if (color == null) {
 			if (other.color != null)
 				return false;
 		} else if (!color.equals(other.color))
 			return false;
-		if (Double.doubleToLongBits(heat) != Double.doubleToLongBits(other.heat))
+		if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value))
 			return false;
 		return true;
 	}

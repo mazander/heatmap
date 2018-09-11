@@ -33,7 +33,9 @@ public class HeatmapRenderer {
 				double y = bounds.getMinX() + bounds.getHeigth() * j / imageHeight;
 				double heat = heatSource.getHeatAt(x, y);
 				
-				pixelData[p++] = colorScheme.getHeatARGBColor(heat);
+				double ratio = Utils.clampRatio(Utils.getBendingRatio(getMinHeat(), getMaxHeat(), heat));
+				
+				pixelData[p++] = colorScheme.getARGBColor(ratio);
 			}
 		}
 

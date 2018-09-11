@@ -16,8 +16,8 @@ public class AlphaColorScheme implements ColorScheme {
 	}
 
 	@Override
-	public int getHeatARGBColor(double heat) {
-		int heatARGBColor = colorScheme.getHeatARGBColor(heat);
+	public int getARGBColor(double ratio) {
+		int heatARGBColor = colorScheme.getARGBColor(ratio);
 		return alphaBits | (0x00FFFFFF & heatARGBColor);
 	}
 

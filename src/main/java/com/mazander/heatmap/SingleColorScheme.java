@@ -11,7 +11,7 @@ public class SingleColorScheme implements ColorScheme {
 	}
 
 	@Override
-	public int getHeatARGBColor(double heat) {
+	public int getARGBColor(double ratio) {
 		return rgba;
 	}
 
