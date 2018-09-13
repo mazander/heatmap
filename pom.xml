@@ -3,8 +3,31 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mazander</groupId>
 	<artifactId>heatmap</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>Heatmap</name>
+	<description>Heatmap is a simple Java library for rendering heatmap images</description>
+	<url>https://github.com/mazander/heatmap</url>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Matti Kannala</name>
+			<email>matti.kannala@gmail.com</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/mazander/heatmap.git</connection>
+		<developerConnection>scm:git:ssh://github.com:mazander/heatmap.git</developerConnection>
+		<url>https://github.com/mazander/heatmap/tree/master</url>
+	</scm>
 
 	<build>
 		<plugins>
