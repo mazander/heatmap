@@ -20,6 +20,10 @@ final class Utils {
 		return (between - smaller) / (bigger - smaller);
 	}
 	
+	static double interpolate(final double value1, final double value2, final double alpha) {
+		return value1 * (1.0 - alpha) + value2 * alpha;
+	}
+	
 	static double clampRatio(final double ratio) {
 		if (ratio < 0.0) {
 			return 0.0;

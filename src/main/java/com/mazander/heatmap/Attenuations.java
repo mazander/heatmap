@@ -2,7 +2,7 @@ package com.mazander.heatmap;
 
 public enum Attenuations implements Attenuation {
 	
-	CONSTANT() {
+	NO() {
 
 		@Override
 		public double getAttenuation(double distance, double maxDistance) {

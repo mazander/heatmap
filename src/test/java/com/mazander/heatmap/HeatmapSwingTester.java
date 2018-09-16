@@ -25,7 +25,8 @@ public class HeatmapSwingTester {
 		HeatmapRenderer rendeder = new HeatmapRenderer(1000, 1000);
 		rendeder.setBounds(new Bounds(0.0, 0.0, 1000.0, 1000.0));
 
-		BufferedImage image = rendeder.render(heatmap, new LinearAlphaColorScheme(ColorSchemes.JET));
+		AlphaColorScheme alphaColorScheme = new AlphaColorScheme(ColorSchemes.JET, 0.0, 1.0, Attenuations.QUADRATIC);
+		BufferedImage image = rendeder.render(heatmap, alphaColorScheme);
 		JPanel imagePanel = new JPanel() {
 			private static final long serialVersionUID = 1L;
 

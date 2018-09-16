@@ -30,5 +30,15 @@ public class UtilsTest {
 		assertEquals(1.0, Utils.clampRatio(1.0), 0.0);
 		assertEquals(1.0, Utils.clampRatio(2.0), 0.0);
 	}
+	
+	@Test
+	public void testInterpolate() {
+		assertEquals(0.0, Utils.interpolate(0.0, 0.0, 0.0), 0.0);
+		assertEquals(0.0, Utils.interpolate(0.0, 100.0, 0.0), 0.0);
+		assertEquals(50.0, Utils.interpolate(0.0, 100.0, 0.5), 0.0);
+		assertEquals(100.0, Utils.interpolate(0.0, 100.0, 1.0), 0.0);
+		assertEquals(-100.0, Utils.interpolate(0.0, 100.0, -1.0), 0.0);
+		assertEquals(200.0, Utils.interpolate(0.0, 100.0, 2.0), 0.0);
+	}
 
 }
