@@ -3,10 +3,12 @@ Simple heatmap image generator for Java.
 
 * Renders heatmap images
 * Double precision calculation
+* 2 built in heat sources (Point and Segment)
 * 48 built in color schemes
-* 4 built in attenuation functions color and alpha
-* Customizable color schemes
-* Customizable attenuation functions
+* 4 built in attenuation functions color and alpha (no attenuation, linear, quadratic, cubic)
+* Custom heat sources
+* Custom color schemes
+* Custom attenuation functions
 
 ## Getting Started
 
