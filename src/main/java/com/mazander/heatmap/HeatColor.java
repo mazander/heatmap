@@ -2,13 +2,13 @@ package com.mazander.heatmap;
 
 import java.awt.Color;
 
-public class MCSColor implements Comparable<MCSColor> {
+public class HeatColor implements Comparable<HeatColor> {
 
 	private final Color color;
 
 	private final double value;
 
-	public MCSColor(double value, Color color) {
+	public HeatColor(double value, Color color) {
 		this.value = value;
 		this.color = color;
 	}
@@ -22,7 +22,7 @@ public class MCSColor implements Comparable<MCSColor> {
 	}
 	
 	@Override
-	public int compareTo(MCSColor other) {
+	public int compareTo(HeatColor other) {
 		return Double.compare(getValue(), other.getValue());
 	}
 
@@ -45,7 +45,7 @@ public class MCSColor implements Comparable<MCSColor> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MCSColor other = (MCSColor) obj;
+		HeatColor other = (HeatColor) obj;
 		if (color == null) {
 			if (other.color != null)
 				return false;
