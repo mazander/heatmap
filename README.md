@@ -45,7 +45,7 @@ BufferedImage image = rendeder.render(heatmap, colorScheme);
 
 ## Color Schemes
 
-[Example images for color schemes](ColorShemes.md)
+[Example images for Color Schemes](ColorSchemes.md)
 
 
 
