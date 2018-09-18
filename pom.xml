@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mazander</groupId>
-	<artifactId>heatmap</artifactId>
+	<artifactId>heatmap-parent</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<name>Heatmap</name>
+	<packaging>pom</packaging>
+	<name>Heatmap Parent</name>
 	<description>Heatmap is a simple Java library for rendering heatmap images</description>
 	<url>https://github.com/mazander/heatmap</url>
 
@@ -87,4 +87,8 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<modules>
+		<module>heatmap-examples</module>
+		<module>heatmap-core</module>
+	</modules>
 </project>
