@@ -24,7 +24,7 @@ public class AlphaColorScheme implements ColorScheme {
 	@Override
 	public int getARGBColor(double ratio) {
 		int heatARGBColor = colorScheme.getARGBColor(ratio);
-		double attenuationValue = attenuation.getAttenuation(ratio, 1.0);
+		double attenuationValue = attenuation.getAttenuation(1.0 - ratio, 1.0);
 		double alpha = getMaxAlpha() > getMinAlpha() ? Utils.interpolate(getMinAlpha(), getMaxAlpha(), attenuationValue) : getMaxAlpha();
 		int intAlpha = (int)( alpha * 255.0 + 0.5);
 		int alphaBits = (intAlpha & 0xFF) << 24;
