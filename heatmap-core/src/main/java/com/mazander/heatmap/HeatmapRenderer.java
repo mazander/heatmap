@@ -1,45 +1,103 @@
 package com.mazander.heatmap;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class HeatmapRenderer {
 
-	private final int imageWidth;
+	private int subImageSize = 100;
+	
+	private int threadCount = Runtime.getRuntime().availableProcessors();
 
-	private final int imageHeight;
+	private int imageWidth;
 
-	private final Bounds bounds = new Bounds(-1.0, -1.0, 1.0, 1.0);
+	private int imageHeight;
+
+	private Bounds bounds = new Bounds(-1.0, -1.0, 1.0, 1.0);
 
 	private double minHeat = 0.0;
 
 	private double maxHeat = 1.0;
+	
+	private ColorScheme colorScheme = ColorSchemes.JET;
 
 	public HeatmapRenderer(int imageWidth, int imageHeight) {
 		this.imageWidth = imageWidth;
 		this.imageHeight = imageHeight;
 	}
 
-	public BufferedImage render(HeatSource heatSource, ColorScheme colorScheme) {
+	public BufferedImage render(HeatSource heatSource) {
 
-		BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = new BufferedImage(getImageWidth(), getImageHeight(), BufferedImage.TYPE_INT_ARGB);
 		int[] pixelData = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+		
+		ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+		
+		ArrayList<CompletableFuture<Void>> futures = new ArrayList<>();
+		for (int i = 0; i < getImageWidth(); i += getSubImageSize()) {
+			for (int j = 0; j < getImageHeight(); j += getSubImageSize()) {
+				final Rectangle rectangle = new Rectangle(i, j, getSubImageSize(), getSubImageSize());
+				futures.add(CompletableFuture.runAsync(() -> renderSubImage(heatSource, rectangle, pixelData), executorService));
+			}
+		}
+		CompletableFuture.allOf(futures.toArray(new CompletableFuture<?>[futures.size()])).join();
+		
+		executorService.shutdown();
 
-		for (int i = 0, p = 0; i < imageWidth; i++) {
-			double x = bounds.getMinX() + bounds.getWidth() * i / imageWidth;
 
-			for (int j = 0; j < imageHeight; j++) {
+		return image;
+	}
+	
+	public void renderSubImage(final HeatSource heatSource, final Rectangle rectangle, final int[] pixelData) {
 
-				double y = bounds.getMinX() + bounds.getHeigth() * j / imageHeight;
+		int iMax = Math.min(rectangle.x + rectangle.width, getImageWidth());
+		int jMax = Math.min(rectangle.y + rectangle.height, getImageHeight());
+
+		for (int j = rectangle.y; j < jMax; j++) {
+
+			double y = getBounds().getMinY() + getBounds().getHeigth() * j / getImageHeight();
+
+			for (int i = rectangle.x; i < iMax; i++) {
+				
+				double x = getBounds().getMinX() + getBounds().getWidth() * i / getImageWidth();
+
 				double heat = heatSource.getHeatAt(x, y);
 				
 				double ratio = Utils.clampRatio(Utils.getBendingRatio(getMinHeat(), getMaxHeat(), heat));
 				
-				pixelData[p++] = colorScheme.getARGBColor(ratio);
+				int index = j * getImageWidth() + i;
+				pixelData[index] = getColorScheme().getARGBColor(ratio);
 			}
 		}
+	}
 
-		return image;
+	public int getSubImageSize() {
+		return subImageSize;
+	}
+
+	public void setSubImageSize(int subImageSize) {
+		this.subImageSize = subImageSize;
+	}
+
+	public int getImageWidth() {
+		return imageWidth;
+	}
+
+	public void setImageWidth(int imageWidth) {
+		this.imageWidth = imageWidth;
+	}
+
+	public int getImageHeight() {
+		return imageHeight;
+	}
+
+	public void setImageHeight(int imageHeight) {
+		this.imageHeight = imageHeight;
 	}
 
 	public double getMinHeat() {
@@ -58,20 +116,28 @@ public class HeatmapRenderer {
 		this.maxHeat = maxHeat;
 	}
 
-	public int getImageWidth() {
-		return imageWidth;
+	public ColorScheme getColorScheme() {
+		return colorScheme;
 	}
 
-	public int getImageHeight() {
-		return imageHeight;
-	}
-
-	public void setBounds(Bounds bounds) {
-		this.bounds.set(bounds);
+	public void setColorScheme(ColorScheme colorScheme) {
+		this.colorScheme = colorScheme;
 	}
 
 	public Bounds getBounds() {
 		return bounds;
+	}
+	
+	public void setBounds(Bounds bounds) {
+		this.bounds.set(bounds);
+	}
+	
+	public void setThreadCount(int threadCount) {
+		this.threadCount = threadCount;
+	}
+	
+	public int getThreadCount() {
+		return threadCount;
 	}
 
 }

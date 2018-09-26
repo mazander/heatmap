@@ -36,8 +36,8 @@ public class GettingStarted {
 		// render image
 		HeatmapRenderer rendeder = new HeatmapRenderer(imageWidth, imageHeight);
 		rendeder.setBounds(new Bounds(0.0, 0.0, worldWidth, worldHeight));
-		ColorSchemes colorScheme = ColorSchemes.JET;
-		BufferedImage image = rendeder.render(heatmap, colorScheme);
+		rendeder.setColorScheme(ColorSchemes.JET);
+		BufferedImage image = rendeder.render(heatmap);
 
 		// write image to file
 		try {

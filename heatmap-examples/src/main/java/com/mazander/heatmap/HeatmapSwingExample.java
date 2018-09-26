@@ -41,7 +41,8 @@ public class HeatmapSwingExample {
 		
 		Graphics2D graphics = mapImage.createGraphics();
 		
-		BufferedImage image = rendeder.render(heatmap, alphaColorScheme);
+		rendeder.setColorScheme(alphaColorScheme);
+		BufferedImage image = rendeder.render(heatmap);
 		graphics.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
 		graphics.dispose();
 		

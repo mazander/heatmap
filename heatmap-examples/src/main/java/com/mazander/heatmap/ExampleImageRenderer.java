@@ -43,8 +43,9 @@ public class ExampleImageRenderer {
 				StandardCharsets.UTF_8.name())) {
 
 			for (ColorScheme colorScheme : ColorSchemes.values()) {
-				BufferedImage image = rendeder.render(heatmap, colorScheme);
-				ImageIO.write(image, "png", new File("images/" + colorScheme + ".png"));
+				rendeder.setColorScheme(colorScheme);
+				BufferedImage image = rendeder.render(heatmap);
+				ImageIO.write(image, "png", new File("../images/" + colorScheme + ".png"));
 
 				out.println("| " + colorScheme + " |");
 				out.println("| --- |");
