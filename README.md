@@ -42,7 +42,7 @@ ColorSchemes colorScheme = ColorSchemes.JET;
 BufferedImage image = rendeder.render(heatmap, colorScheme);
 ```
 
-![CUBEHELIX](images/getting-started.png) |
+![Getting Started](images/getting-started.png)
 
 ## Color Schemes
 
