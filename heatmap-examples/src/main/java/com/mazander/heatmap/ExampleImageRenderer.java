@@ -1,6 +1,8 @@
 package com.mazander.heatmap;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,7 +29,6 @@ public class ExampleImageRenderer {
 
 		List<HeatSource> heatSources = new ArrayList<>();
 		for (int i = 0; i < 1000; i++) {
-
 			double x = (0.5 * random.nextGaussian() + 0.5) * WORLD_WIDTH;
 			double y = (0.5 * random.nextGaussian() + 0.5) * WORLD_HEIGHT;
 			PointHeat pointHeat = new PointHeat(x, y, MAXIMUM_HEAT, HEAT_RADIUS);
@@ -39,12 +40,20 @@ public class ExampleImageRenderer {
 		HeatmapRenderer rendeder = new HeatmapRenderer(IMAGE_WIDTH, IMAGE_HEIGHT);
 		rendeder.setBounds(new Bounds(0.0, 0.0, WORLD_WIDTH, WORLD_HEIGHT));
 
-		try (PrintStream out = new PrintStream(new FileOutputStream("ColorSchemes.md"), true,
+		try (PrintStream out = new PrintStream(new FileOutputStream("../ColorSchemes.md"), true,
 				StandardCharsets.UTF_8.name())) {
 
 			for (ColorScheme colorScheme : ColorSchemes.values()) {
 				rendeder.setColorScheme(colorScheme);
+				// render heatmap
 				BufferedImage image = rendeder.render(heatmap);
+				
+				// render color scheme
+				int[] pixelData = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+				ColorSchemeSlide colorSchemeSlide = new ColorSchemeSlide(IMAGE_WIDTH, IMAGE_HEIGHT);
+				rendeder.renderSubImage(colorSchemeSlide, new Rectangle(0, 0, IMAGE_WIDTH, 20), pixelData);
+				
+				// wrtie image
 				ImageIO.write(image, "png", new File("../images/" + colorScheme + ".png"));
 
 				out.println("| " + colorScheme + " |");
@@ -56,5 +65,25 @@ public class ExampleImageRenderer {
 			e.printStackTrace();
 		}
 	}
+	
+	private static final class ColorSchemeSlide implements HeatSource {
+		
+		private final double width;
+		private final double height;
 
+		ColorSchemeSlide(double width, double height) {
+			this.width = width;
+			this.height = height;
+		}
+
+		@Override
+		public double getHeatAt(double x, double y) {
+			return x / width;
+		}
+
+		@Override
+		public Bounds getBounds() {
+			return new Bounds(0, 0, width, height);
+		}
+	}
 }
