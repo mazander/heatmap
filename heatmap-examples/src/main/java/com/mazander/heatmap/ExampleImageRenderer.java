@@ -50,7 +50,7 @@ public class ExampleImageRenderer {
 				
 				// render color scheme
 				int[] pixelData = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-				ColorSchemeSlide colorSchemeSlide = new ColorSchemeSlide(IMAGE_WIDTH, IMAGE_HEIGHT);
+				ColorSchemeSlide colorSchemeSlide = new ColorSchemeSlide(WORLD_WIDTH, WORLD_HEIGHT);
 				rendeder.renderSubImage(colorSchemeSlide, new Rectangle(0, 0, IMAGE_WIDTH, 20), pixelData);
 				
 				// wrtie image
